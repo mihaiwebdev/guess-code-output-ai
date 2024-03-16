@@ -1,0 +1,74 @@
+<div class="code-snippet-container">
+  <h2 class="heading">
+    🤔 Can you guess the output of this code? 🔍
+  </h2>
+
+  <div class="nav-actions">
+    <mat-form-field class="language-select">
+      <mat-label>Favorite language</mat-label>
+      <mat-select
+        [value]="navbarService.selectedLanguage()"
+        (selectionChange)="selectLanguage($event)"
+      >
+        @for (option of languages; track option) {
+          <mat-option [value]="option">{{ option | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Complexity level</mat-label>
+      <mat-select
+        [value]="navbarService.selectedLvl()"
+        (selectionChange)="selectLevel($event)"
+      >
+        @for (option of levels; track option) {
+          <mat-option [value]="option">{{ option | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="code-box">
+    <pre>
+      @if($isLoading()) {
+        <span class="loader"></span>
+      }@else {
+        <code [highlight]="'\n' + $codeSnippet()"></code>
+      }
+
+    </pre>
+
+    <form #form="ngForm" (ngSubmit)="checkAnswer(form)">
+      <input
+        name="answer"
+        [(ngModel)]="answerInput"
+        type="text"
+        placeholder="Type your answer"
+        required
+        class="answer-input"
+        [disabled]="$isLoading()"
+      />
+
+      <div class="actions">
+        <input
+          class="btn submit-btn"
+          type="submit"
+          placeholder="Type your answer"
+          [disabled]="$isLoading()"
+        />
+        <button
+          class="btn next-btn"
+          (click)="getCodeSnippet()"
+          [disabled]="$isLoading()"
+        >
+          Skip
+          <i
+            class="fa-solid fa-circle-chevron-right"
+            style="color: #dabfff"
+          ></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
